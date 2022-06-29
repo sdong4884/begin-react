@@ -1,0 +1,74 @@
+$blue: blue;
+$gray: gray;
+$pink: pink;
+
+@mixin button-color($color) {
+  background-color: $color;
+  &:hover {
+    background-color: lighten($color, 10%);
+  }
+  &:active {
+    background-color: darken($color, 10%);
+  }
+
+  &.outline {
+    color: $color;
+    background-color: transparent;
+    border: 1px solid $color;
+    &:hover {
+      background-color: $color;
+      color: white;
+    }
+  }
+}
+
+.buttons {
+  & + & {
+    margin-top: 1rem;
+  }
+}
+
+.button {
+  color: white;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  text-align: center;
+  padding: 0 1rem;
+  cursor: pointer;
+  &.small {
+    height: 1.75rem;
+    font-size: 0.875rem;
+    line-height: 1.75rem;
+  }
+  &.medium {
+    height: 2.25rem;
+    font-size: 1rem;
+    line-height: 2.25rem;
+  }
+  &.large {
+    height: 3rem;
+    font-size: 1.25rem;
+    line-height: 3rem;
+  }
+  &.blue {
+    @include button-color($blue);
+  }
+  &.gray {
+    @include button-color($gray);
+  }
+  &.pink {
+    @include button-color($pink);
+  }
+  & + & {
+    margin-left: 1rem;
+  }
+  &.fullWidth {
+    width: 100%;
+    & + & {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+  }
+}

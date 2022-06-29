@@ -8,6 +8,7 @@ import React, {
 import produce from 'immer'
 import CreateUser from './components/CreateUser'
 import UserList from './components/UserList'
+import Button from './components/Button'
 
 window.produce = produce
 
@@ -106,16 +107,79 @@ function App() {
   const count = useMemo(() => countAvticeUsers(users), [users])
 
   return (
-    <UserDispatch.Provider value={dispatch}>
-      <CreateUser
-        username={username}
-        email={email}
-        onChange={onChange}
-        onCreate={onCreate}
-      />
-      <UserList users={users} />
-      <div>활성 사용자 수 : {count}</div>
-    </UserDispatch.Provider>
+    <>
+      <UserDispatch.Provider value={dispatch}>
+        <CreateUser
+          username={username}
+          email={email}
+          onChange={onChange}
+          onCreate={onCreate}
+        />
+        <UserList users={users} />
+        <div>활성 사용자 수 : {count}</div>
+      </UserDispatch.Provider>
+
+      <div class="button-groups">
+        <h1>Buttons</h1>
+        <div className="buttons">
+          <Button size="large">BUTTON</Button>
+          <Button size="medium">BUTTON</Button>
+          <Button size="small">BUTTON</Button>
+        </div>
+        <div className="buttons">
+          <Button size="large" color="gray">
+            BUTTON
+          </Button>
+          <Button size="medium" color="gray">
+            BUTTON
+          </Button>
+          <Button size="small" color="gray">
+            BUTTON
+          </Button>
+        </div>
+        <div className="buttons">
+          <Button size="large" color="pink">
+            BUTTON
+          </Button>
+          <Button size="medium" color="pink">
+            BUTTON
+          </Button>
+          <Button size="small" color="pink">
+            BUTTON
+          </Button>
+        </div>
+        <div className="buttons">
+          <Button size="large" outline>
+            BUTTON
+          </Button>
+          <Button size="medium" color="gray" outline>
+            BUTTON
+          </Button>
+          <Button size="small" color="pink" outline>
+            BUTTON
+          </Button>
+        </div>
+        <div className="buttons">
+          <Button size="large" fullWidth>
+            BUTTON
+          </Button>
+          <Button size="large" color="gray" fullWidth>
+            BUTTON
+          </Button>
+          <Button
+            size="large"
+            color="pink"
+            fullWidth
+            className="customize-button"
+            onClick={() => {
+              console.log('클릭!')
+            }}
+          >
+            BUTTON
+          </Button>
+        </div>
+      </div>
+    </>
   )
 }
 
