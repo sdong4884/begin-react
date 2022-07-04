@@ -1,14 +1,37 @@
 import React, {
+  useState,
   useCallback,
   useMemo,
   useReducer,
   useRef,
   createContext,
 } from 'react'
+import styled, { ThemeProvider } from 'styled-components'
 import produce from 'immer'
 import CreateUser from './components/CreateUser'
 import UserList from './components/UserList'
 import Button from './components/Button'
+import StyledButton from './components/StyledButton'
+import Dialog from './components/Dialog'
+
+const ButtonGoup = styled.div`
+  & + & {
+    margin-top: 1rem;
+  }
+`
+
+const AppBlock = styled.div`
+  width: 512px;
+  margin: 4rem auto 0;
+  border: 1px solid black;
+  padding: 1rem;
+`
+
+const palette = {
+  blue: '#228be6',
+  gray: '#496057',
+  pink: '#f06595',
+}
 
 window.produce = produce
 
@@ -77,6 +100,17 @@ function reducer(state, action) {
 export const UserDispatch = createContext(null)
 
 function App() {
+  const [dialog, setDialog] = useState(false)
+  const onClickDialog = () => {
+    setDialog(true)
+  }
+  const onCancelDialog = () => {
+    setDialog(false)
+  }
+  const onConfirmDialog = () => {
+    setDialog(false)
+  }
+
   const [state, dispatch] = useReducer(reducer, initialState)
   const { users } = state
   const { username, email } = state.inputs
@@ -119,7 +153,7 @@ function App() {
         <div>활성 사용자 수 : {count}</div>
       </UserDispatch.Provider>
 
-      <div class="button-groups">
+      <div className="button-groups">
         <h1>Buttons</h1>
         <div className="buttons">
           <Button size="large">BUTTON</Button>
@@ -179,6 +213,50 @@ function App() {
           </Button>
         </div>
       </div>
+
+      <ThemeProvider theme={{ palette }}>
+        <>
+          <AppBlock>
+            <ButtonGoup>
+              <StyledButton size="large">BUTTON</StyledButton>
+              <StyledButton color="gray">BUTTON</StyledButton>
+              <StyledButton size="small" color="pink">
+                BUTTON
+              </StyledButton>
+            </ButtonGoup>
+            <ButtonGoup>
+              <StyledButton size="large" outline>
+                BUTTON
+              </StyledButton>
+              <StyledButton color="gray" outline>
+                BUTTON
+              </StyledButton>
+              <StyledButton size="small" color="pink" outline>
+                BUTTON
+              </StyledButton>
+            </ButtonGoup>
+            <ButtonGoup>
+              <StyledButton fullWidth>BUTTON</StyledButton>
+              <StyledButton color="gray" fullWidth>
+                BUTTON
+              </StyledButton>
+              <StyledButton color="pink" fullWidth onClick={onClickDialog}>
+                삭제
+              </StyledButton>
+            </ButtonGoup>
+          </AppBlock>
+          <Dialog
+            visible={dialog}
+            title="정말로 삭제하시겠습니까?"
+            confirmText="삭제"
+            cancelText="취소"
+            onCancelDialog={onCancelDialog}
+            onConfirmDialog={onConfirmDialog}
+          >
+            데이터를 정말로 삭제하시겠습니까 ?
+          </Dialog>
+        </>
+      </ThemeProvider>
     </>
   )
 }
